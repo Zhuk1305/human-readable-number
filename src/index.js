@@ -1,28 +1,33 @@
 module.exports = function toReadable(number) {
+    if (number == 0) {
+        return "zero";
+    }
+
     let stringNums = "";
     let hundreds = 100;
     let dozens = 10;
-    let numHundreds = Math.floor(number / hundreds);
-    let numDozens = Math.floor((number - numHundreds * hundreds) / dozens);
+    let numHundreds = Math.floor(number / hundreds); //количество сотен
+    let numDozens = Math.floor((number - numHundreds * hundreds) / dozens); // количество десятков
+    let numWithoutHudreds = number - numHundreds * hundreds; // число без сотен
     if (numHundreds !== 0) {
         stringNums += `${getStringNum(numHundreds)} hundred`;
     }
     if (numDozens !== 0) {
-        stringNums += ` ${getStringTenNum(numDozens)}`;
+        numDozens === 1
+            ? (stringNums += ` ${getStringTeenNum(numWithoutHudreds % dozens)}`)
+            : (stringNums += ` ${getStringTenNum(numDozens)}`);
     }
 
     if (numDozens !== 1) {
-        stringNums += ` ${getStringNum(number % dozens)}`;
+        stringNums += ` ${getStringNum(numWithoutHudreds % dozens)}`;
+        console.log(stringNums.trim());
     }
-
-    console.log(stringNums);
+    console.log(stringNums.trim());
+    return stringNums.trim();
 };
 
 function getStringNum(num) {
     switch (num) {
-        case 0:
-            return "zero";
-            break;
         case 1:
             return "one";
             break;
@@ -45,7 +50,7 @@ function getStringNum(num) {
             return "seven";
             break;
         case 8:
-            return "eigth";
+            return "eight";
             break;
         case 9:
             return "nine";
@@ -57,6 +62,7 @@ function getStringNum(num) {
 }
 
 function getStringTeenNum(num) {
+    console.log(num);
     switch (num) {
         case 0:
             return "ten";
@@ -97,9 +103,7 @@ function getStringTeenNum(num) {
 function getStringTenNum(num) {
     switch (num) {
         case 1:
-            return `${getStringTeenNum(
-                (number - numHundreds * hundreds) % dozens
-            )}`;
+            return ` ${getStringTeenNum(numWithoutHudreds % dozens)}`;
             break;
         case 2:
             return "twenty";
