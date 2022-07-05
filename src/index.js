@@ -20,9 +20,7 @@ module.exports = function toReadable(number) {
 
     if (numDozens !== 1) {
         stringNums += ` ${getStringNum(numWithoutHudreds % dozens)}`;
-        console.log(stringNums.trim());
     }
-    console.log(stringNums.trim());
     return stringNums.trim();
 };
 
